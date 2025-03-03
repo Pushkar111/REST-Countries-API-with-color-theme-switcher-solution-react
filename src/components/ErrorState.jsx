@@ -4,11 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useAppDispatch } from '@/redux/hooks';
 import { fetchCountries } from '@/redux/slices/countriesSlice';
 
-interface ErrorStateProps {
-  message: string;
-}
-
-const ErrorState = ({ message }: ErrorStateProps) => {
+const ErrorState = ({ message }) => {
   const dispatch = useAppDispatch();
 
   const handleRetry = () => {

@@ -15,7 +15,7 @@ const RegionFilter = () => {
   const selectedRegion = useAppSelector((state) => state.countries.selectedRegion);
 
   const handleRegionChange = useCallback(
-    (value: string) => {
+    (value) => {
       dispatch(setSelectedRegion(value));
     },
     [dispatch]

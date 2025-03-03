@@ -1,52 +1,8 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export interface Country {
-  name: {
-    common: string;
-    official: string;
-    nativeName?: Record<string, { official: string; common: string }>;
-  };
-  tld?: string[];
-  cca2: string;
-  ccn3?: string;
-  cca3: string;
-  independent?: boolean;
-  status?: string;
-  unMember?: boolean;
-  currencies?: Record<string, { name: string; symbol: string }>;
-  capital?: string[];
-  altSpellings?: string[];
-  region?: string;
-  subregion?: string;
-  languages?: Record<string, string>;
-  translations?: Record<string, { official: string; common: string }>;
-  latlng?: number[];
-  landlocked?: boolean;
-  borders?: string[];
-  area?: number;
-  flag?: string;
-  flags: {
-    png: string;
-    svg: string;
-    alt?: string;
-  };
-  demonyms?: Record<string, { f: string; m: string }>;
-  population?: number;
-  continents?: string[];
-}
-
-interface CountriesState {
-  data: Country[];
-  filteredData: Country[];
-  selectedCountry: Country | null;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
-  searchQuery: string;
-  selectedRegion: string;
-}
-
-const initialState: CountriesState = {
+const initialState = {
   data: [],
   filteredData: [],
   selectedCountry: null,
@@ -60,7 +16,7 @@ export const fetchCountries = createAsyncThunk(
   'countries/fetchCountries',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get<Country[]>('https://restcountries.com/v3.1/all');
+      const response = await axios.get('https://restcountries.com/v3.1/all');
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -73,9 +29,9 @@ export const fetchCountries = createAsyncThunk(
 
 export const fetchCountryByCode = createAsyncThunk(
   'countries/fetchCountryByCode',
-  async (code: string, { rejectWithValue }) => {
+  async (code, { rejectWithValue }) => {
     try {
-      const response = await axios.get<Country[]>(`https://restcountries.com/v3.1/alpha/${code}`);
+      const response = await axios.get(`https://restcountries.com/v3.1/alpha/${code}`);
       return response.data[0];
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -90,11 +46,11 @@ export const countriesSlice = createSlice({
   name: 'countries',
   initialState,
   reducers: {
-    setSearchQuery: (state, action: PayloadAction<string>) => {
+    setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
       state.filteredData = filterCountries(state.data, state.searchQuery, state.selectedRegion);
     },
-    setSelectedRegion: (state, action: PayloadAction<string>) => {
+    setSelectedRegion: (state, action) => {
       state.selectedRegion = action.payload;
       state.filteredData = filterCountries(state.data, state.searchQuery, state.selectedRegion);
     },
@@ -114,7 +70,7 @@ export const countriesSlice = createSlice({
       })
       .addCase(fetchCountries.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload as string;
+        state.error = action.payload;
       })
       .addCase(fetchCountryByCode.pending, (state) => {
         state.status = 'loading';
@@ -125,12 +81,12 @@ export const countriesSlice = createSlice({
       })
       .addCase(fetchCountryByCode.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload as string;
+        state.error = action.payload;
       });
   },
 });
 
-const filterCountries = (countries: Country[], searchQuery: string, region: string): Country[] => {
+const filterCountries = (countries, searchQuery, region) => {
   return countries.filter((country) => {
     const matchesSearch = country.name.common.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesRegion = region === 'all' ? true : country.region?.toLowerCase() === region.toLowerCase();

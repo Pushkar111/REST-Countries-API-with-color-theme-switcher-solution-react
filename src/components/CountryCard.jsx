@@ -2,13 +2,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Country } from '@/redux/slices/countriesSlice';
 
-interface CountryCardProps {
-  country: Country;
-}
-
-const CountryCard = React.memo(({ country }: CountryCardProps) => {
+const CountryCard = React.memo(({ country }) => {
   return (
     <Link to={`/country/${country.cca3}`}>
       <Card className="h-full overflow-hidden transition-all hover:shadow-md">

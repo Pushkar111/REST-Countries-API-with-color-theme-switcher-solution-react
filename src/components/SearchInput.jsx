@@ -20,7 +20,7 @@ const SearchInput = () => {
     };
   }, [localQuery, dispatch]);
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e) => {
     setLocalQuery(e.target.value);
   }, []);
 
