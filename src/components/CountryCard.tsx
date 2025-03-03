@@ -3,7 +3,28 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
-const CountryCard = React.memo(({ country }) => {
+interface Country {
+  name: {
+    common: string;
+    nativeName?: Record<string, { common: string }>;
+  };
+  cca3: string;
+  capital?: string[];
+  region?: string;
+  subregion?: string;
+  population?: number;
+  flags: {
+    png: string;
+    svg: string;
+    alt?: string;
+  };
+}
+
+interface CountryCardProps {
+  country: Country;
+}
+
+const CountryCard = React.memo(({ country }: CountryCardProps) => {
   return (
     <Link to={`/country/${country.cca3}`}>
       <Card className="h-full overflow-hidden transition-all hover:shadow-md">

@@ -9,7 +9,7 @@ import LoadingState from '@/components/LoadingState';
 import ErrorState from '@/components/ErrorState';
 
 const CountryDetails = () => {
-  const { countryCode } = useParams();
+  const { countryCode } = useParams<{ countryCode: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { selectedCountry, status, error } = useAppSelector((state) => state.countries);

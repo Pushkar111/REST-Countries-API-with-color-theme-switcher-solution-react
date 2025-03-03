@@ -1,7 +1,7 @@
 
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './index.css';
 
 // Initialize theme from localStorage
 const initializeTheme = () => {
@@ -17,4 +17,4 @@ const initializeTheme = () => {
 // Call this function before rendering the app
 initializeTheme();
 
-createRoot(document.getElementById("root")).render(<App />);
+createRoot(document.getElementById("root")!).render(<App />);

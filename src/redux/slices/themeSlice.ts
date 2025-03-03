@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // Get theme from localStorage or use 'light' as default
-const getInitialTheme = () => {
+const getInitialTheme = (): 'light' | 'dark' => {
   if (typeof window !== 'undefined') {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light' || savedTheme === 'dark') {
@@ -17,7 +17,11 @@ const getInitialTheme = () => {
   return 'light';
 };
 
-const initialState = {
+interface ThemeState {
+  mode: 'light' | 'dark';
+}
+
+const initialState: ThemeState = {
   mode: getInitialTheme(),
 };
 
