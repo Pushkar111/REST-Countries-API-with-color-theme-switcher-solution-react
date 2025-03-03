@@ -27,7 +27,7 @@ const RegionFilter = () => {
         <SelectValue placeholder="Filter by Region" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="">All Regions</SelectItem>
+        <SelectItem value="all">All Regions</SelectItem>
         <SelectItem value="Africa">Africa</SelectItem>
         <SelectItem value="Americas">Americas</SelectItem>
         <SelectItem value="Asia">Asia</SelectItem>

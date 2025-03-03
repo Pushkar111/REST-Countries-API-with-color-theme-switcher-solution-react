@@ -1,4 +1,3 @@
-
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -54,10 +53,9 @@ const initialState: CountriesState = {
   status: 'idle',
   error: null,
   searchQuery: '',
-  selectedRegion: '',
+  selectedRegion: 'all',
 };
 
-// Async thunk for fetching countries
 export const fetchCountries = createAsyncThunk(
   'countries/fetchCountries',
   async (_, { rejectWithValue }) => {
@@ -73,7 +71,6 @@ export const fetchCountries = createAsyncThunk(
   }
 );
 
-// Async thunk for fetching a single country by code
 export const fetchCountryByCode = createAsyncThunk(
   'countries/fetchCountryByCode',
   async (code: string, { rejectWithValue }) => {
@@ -133,11 +130,10 @@ export const countriesSlice = createSlice({
   },
 });
 
-// Helper function to filter countries
 const filterCountries = (countries: Country[], searchQuery: string, region: string): Country[] => {
   return countries.filter((country) => {
     const matchesSearch = country.name.common.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesRegion = region ? country.region?.toLowerCase() === region.toLowerCase() : true;
+    const matchesRegion = region === 'all' ? true : country.region?.toLowerCase() === region.toLowerCase();
     return matchesSearch && matchesRegion;
   });
 };
